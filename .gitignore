@@ -7,3 +7,6 @@
 *.iml
 out
 gen
+application.log
+src/main/resource/
+target/
