@@ -8,5 +8,5 @@
 out
 gen
 application.log
-src/main/resource/
+#src/main/resource/
 target/
