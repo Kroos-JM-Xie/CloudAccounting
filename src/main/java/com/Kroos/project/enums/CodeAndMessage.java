@@ -7,8 +7,7 @@ import lombok.Setter;
 /**
  * 返回码和提示信息
  */
-@Setter
-@Getter
+
 public enum CodeAndMessage {
     Success(200,"成功！"),
     //1开头的错误编码用于用户信息
@@ -23,7 +22,7 @@ public enum CodeAndMessage {
     Wrong_number_for_bill_amount(30,"账单金额数字格式错误"),
     Wrong_date_format(31,"日期格式错误"),
     Date_is_future(32,"账单日期大于当前日期"),
-    Amount_is_zero(33,"记账金额小于0"),
+    Amount_is_zero(33,"记账金额小于或等于0"),
     Bill_type_is_null(34,"未选择收入或支出"),
     Bill_kind_is_null(35,"未选择账单来源或去处"),
     Currency_kind_is_null(36,"未选择货币种类"),
@@ -36,5 +35,21 @@ public enum CodeAndMessage {
     CodeAndMessage(Integer code,String message){
         this.code=code;
         this.message=message;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }
