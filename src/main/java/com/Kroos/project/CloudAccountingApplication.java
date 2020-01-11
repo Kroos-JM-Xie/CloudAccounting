@@ -9,8 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableAutoConfiguration
 public class CloudAccountingApplication {
 	@RequestMapping("/test")
-	String home() {
-		return "Hello World!";
+	public String home() {
+		System.out.println(calculate());
+		return "Hello World!"+calculate();
+	}
+	public int calculate(){
+		int i=1;
+		return (++i)+i++;
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(CloudAccountingApplication.class, args);

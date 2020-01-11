@@ -83,6 +83,34 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+		<!--swagger-->
+		<!--Swagger2-->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+
+		<!--Swagger-ui-->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+		<!-- 引入Lombock依赖 -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!--阿里fastjson-->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.46</version>
+		</dependency>
+
 	</dependencies>
  <!--
 	<dependencyManagement>
