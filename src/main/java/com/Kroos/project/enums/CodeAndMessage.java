@@ -6,6 +6,7 @@ import lombok.Setter;
 
 /**
  * 返回码和提示信息
+ * @author Kroos
  */
 
 public enum CodeAndMessage {
@@ -27,6 +28,8 @@ public enum CodeAndMessage {
     Bill_kind_is_null(35,"未选择账单来源或去处"),
     Currency_kind_is_null(36,"未选择货币种类"),
 
+    Password_encrypt_fail(996,"密码加密失败"),
+    IDCard_encryption_fail(997,"加密证件失败"),
     Network_error(999,"网络异常"),
     ;
 

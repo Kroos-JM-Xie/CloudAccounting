@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+    <configuration  scan="true" scanPeriod="60 seconds" debug="false">
+        <!--根节点包含的属性
+        scan:当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
+        scanPeriod:设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。
+        debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。
+        -->
+        <!--1.定义参数常量 -->
+        <property name="LOG_PATH" value="D:/CloudAccounting-logs"/>
+        <property name="log.level" value="info"/>
+        <!--TRACE < DEBUG < INFO < WARN < ERROR -->
+        <property name="log.maxHistory" value="30"/>
+        <!-- <property name="log.filePath" value="d:/logs" />--><!--日志保存的路径-->
+        <property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" /><!--日志的输出格式-->
+        <property name="LOG_DATE" value="%d{yyyy-MM-dd}-%i"/>
+
+        <!--appender用来格式化日志输出节点，有俩个属性name和class，class用来指定哪种输出策略，常用就是控制台输出策略和文件输出策略。-->
+        <!--输出到控制台-->
+        <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>info</level>
+            </filter>
+            <encoder>
+                <pattern>${log.pattern}</pattern>
+            </encoder>
+        </appender>
+
+        <!--
+        <encoder>表示对日志进行编码：
+        %d{HH: mm:ss.SSS}——日志输出时间
+        %thread——输出日志的进程名字，这在Web应用以及异步任务处理中很有用
+        %-5level——日志级别，并且使用5个字符靠左对齐
+        %logger{36}——日志输出者的名字
+        %msg——日志消息
+        %n——平台的换行符
+        ThresholdFilter为系统定义的拦截器，例如我们用ThresholdFilter来过滤掉ERROR级别以下的日志不输出到文件中。如果不用记得注释掉，不然你控制台会发现没日志-->
+        <!--向文件中输出Info级别日志-->
+        <appender name="fileInfo" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!--  <file>${LOG_PATH}/info.${LOG_NAME}.log</file>文件路径 -->
+          <!--  <Prudet>true</Prudet> -->
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>Info</level>
+            </filter>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"><!--随着时间滚动-->
+                <fileNamePattern>${LOG_PATH}/info-${LOG_DATE}.log</fileNamePattern><!-- 文件名称 -->
+                <maxHistory>${log.maxHistory}</maxHistory> <!-- 文件最大保存历史数量 -->
+                <!--
+               当日志文件超过maxFileSize指定的大小时，根据上面提到的%i进行日志文件滚动
+               注意此处配置SizeBasedTriggeringPolicy是无法实现按文件大小进行滚动的，
+               必须配置timeBasedFileNamingAndTriggeringPolicy
+               -->
+                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <maxFileSize>200MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+            </rollingPolicy>
+            <encoder>
+                <pattern>${log.pattern}</pattern>
+            </encoder>
+        </appender>
+    <!--向文件中输出Warn级别日志-->
+    <appender name="fileWARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--  <file>${LOG_PATH}/warn.${LOG_NAME}.log</file>文件路径 -->
+        <!--  <Prudet>true</Prudet> -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/warn-${LOG_DATE}.log</fileNamePattern>
+            <maxHistory>${log.maxHistory}</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>200MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+    </appender>
+    <!--向文件中输出Error级别日志-->
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--  <file>${LOG_PATH}/info.${LOG_NAME}.log</file>文件路径 -->
+        <!--  <Prudet>true</Prudet>-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>Error</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/error-${LOG_DATE}.log</fileNamePattern>
+            <maxHistory>${log.maxHistory}</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>200MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+    </appender>
+        <root level="debug">
+            <appender-ref ref="console" />
+            <appender-ref ref="fileInfo" />
+            <appender-ref ref="fileWARN"/>
+            <appender-ref ref="file"/>
+        </root>
+        <!-- logback为java中的包 -->
+     <!--<logger>用来设置某一个包或者具体的某一个类的日志打印级别、以及指定<appender>。<logger>仅有一个name属性，一个可选的level和一个可选的addtivity属性。
+     name:用来指定受此loger约束的某一个包或者具体的某一个类。
+     level:用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF，还有一个特俗值INHERITED或者同义词NULL，代表强制执行上级的级别。如果未设置此属性，那么当前loger将会继承上级的级别。
+     addtivity:是否向上级logger传递打印信息。默认是true。 -->
+
+        <logger name="com.Kroos.project.controller.*" level="DEBUG" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
+    </configuration>

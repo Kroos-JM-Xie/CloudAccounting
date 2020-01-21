@@ -4,6 +4,7 @@ package com.Kroos.project.tool;
 
 import java.io.Serializable;
 
+
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import lombok.Setter;
 /**
  * 请求返回类
  * 统一返回处理结果
+ * @author Kroos
  */
 
 @Getter
@@ -41,5 +43,7 @@ public class Result implements Serializable {
         this.message=message;
         this.data=data;
     }
+
+
 
 }
